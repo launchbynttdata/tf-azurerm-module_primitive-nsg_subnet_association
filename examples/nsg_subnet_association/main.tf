@@ -20,7 +20,8 @@ module "nsg_subnet_association" {
   subnet_id                 = each.value[0]
 }
 module "resource_group" {
-  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-resource_group.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/resource_group/azurerm"
+  version = "~> 1.0"
 
   name     = local.resource_group_name
   location = var.region
@@ -31,7 +32,8 @@ module "resource_group" {
 
 # This module generates the resource-name of resources based on resource_type, naming_prefix, env etc.
 module "resource_names" {
-  source = "git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
+  version = "~> 1.0"
 
   for_each = var.resource_names_map
 
@@ -46,7 +48,8 @@ module "resource_names" {
 }
 
 module "nsg" {
-  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-network_security_group.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/network_security_group/azurerm"
+  version = "~> 1.0"
 
   name                = local.nsg_name
   location            = var.region
@@ -55,7 +58,8 @@ module "nsg" {
 }
 
 module "network" {
-  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_collection-virtual_network.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_collection/virtual_network/azurerm"
+  version = "~> 1.0"
 
   network_map = local.modified_network_map
 
