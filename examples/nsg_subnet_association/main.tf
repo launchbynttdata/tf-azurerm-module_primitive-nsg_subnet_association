@@ -14,10 +14,10 @@
 module "nsg_subnet_association" {
   source = "../.."
 
-  for_each = module.network.vnet_subnets
+  for_each = module.network.vnet_subnet_name_id_map_flattened
 
   network_security_group_id = module.nsg.network_security_group_id
-  subnet_id                 = each.value[0]
+  subnet_id                 = each.value
 }
 module "resource_group" {
   source  = "terraform.registry.launch.nttdata.com/module_primitive/resource_group/azurerm"
@@ -59,7 +59,7 @@ module "nsg" {
 
 module "network" {
   source  = "terraform.registry.launch.nttdata.com/module_collection/virtual_network/azurerm"
-  version = "~> 1.0"
+  version = "~> 1.2.0"
 
   network_map = local.modified_network_map
 
