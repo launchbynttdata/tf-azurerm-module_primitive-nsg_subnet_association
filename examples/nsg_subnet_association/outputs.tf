@@ -31,6 +31,8 @@ output "resource_group_name" {
 }
 
 output "id" {
-  value       = { for k, v in var.network_map : k => module.nsg_subnet_association[k].id }
+  value = {
+    for subnet_name, assoc in module.nsg_subnet_association : subnet_name => assoc.id
+  }
   description = "The ID of the Subnet with the associated nsg."
 }
