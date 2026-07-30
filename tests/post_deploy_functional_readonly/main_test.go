@@ -38,5 +38,5 @@ func TestNsgSubnetAssociation(t *testing.T) {
 		}).
 		Build()
 
-	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestNsgSubnetAssociation)
+	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestComposableNsgSubnetAssociation)
 }

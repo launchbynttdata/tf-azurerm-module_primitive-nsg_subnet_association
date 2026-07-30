@@ -38,5 +38,5 @@ func TestNsgSubnetAssociation(t *testing.T) {
 		}).
 		Build()
 
-	lib.RunSetupTestTeardown(t, *ctx, testimpl.TestNsgSubnetAssociation)
+	lib.RunSetupTestTeardown(t, *ctx, testimpl.TestComposableNsgSubnetAssociation)
 }
