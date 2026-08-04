@@ -12,7 +12,7 @@
 ## Modules
 
 | Name | Source | Version |
-| ---- | ------ | ------- |
+|------|--------|---------|
 | <a name="module_network"></a> [network](#module\_network) | terraform.registry.launch.nttdata.com/module_collection/virtual_network/azurerm | ~> 1.2 |
 | <a name="module_nsg"></a> [nsg](#module\_nsg) | terraform.registry.launch.nttdata.com/module_primitive/network_security_group/azurerm | ~> 1.0 |
 | <a name="module_nsg_subnet_association"></a> [nsg\_subnet\_association](#module\_nsg\_subnet\_association) | ../.. | n/a |
