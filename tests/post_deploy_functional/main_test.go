@@ -33,7 +33,7 @@ func TestNsgSubnetAssociation(t *testing.T) {
 		SetTestConfigFileName(infraTFVarFileNameDefault).
 		SetTestSpecificFlags(map[string]types.TestFlags{
 			"nsg_subnet_association": {
-				"IS_TERRAFORM_IDEMPOTENT_APPLY": true,
+				"IS_TERRAFORM_IDEMPOTENT_APPLY": false,
 			},
 		}).
 		Build()
