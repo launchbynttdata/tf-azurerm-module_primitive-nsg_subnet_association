@@ -1,26 +1,23 @@
 # tf-azurerm-module_primitive-nsg_subnet_association
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.5 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.77 |
-
-## Providers
-
-No providers.
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.5 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_network"></a> [network](#module\_network) | terraform.registry.launch.nttdata.com/module_collection/virtual_network/azurerm | ~> 1.2 |
+| <a name="module_nsg"></a> [nsg](#module\_nsg) | terraform.registry.launch.nttdata.com/module_primitive/network_security_group/azurerm | ~> 1.0 |
 | <a name="module_nsg_subnet_association"></a> [nsg\_subnet\_association](#module\_nsg\_subnet\_association) | ../.. | n/a |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform.registry.launch.nttdata.com/module_primitive/resource_group/azurerm | ~> 1.0 |
-| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | terraform.registry.launch.nttdata.com/module_library/resource_name/launch | ~> 1.0 |
-| <a name="module_nsg"></a> [nsg](#module\_nsg) | terraform.registry.launch.nttdata.com/module_primitive/network_security_group/azurerm | ~> 1.0 |
-| <a name="module_network"></a> [network](#module\_network) | terraform.registry.launch.nttdata.com/module_collection/virtual_network/azurerm | ~> 1.2 |
+| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | terraform.registry.launch.nttdata.com/module_library/resource_name/launch | ~> 2.0 |
 
 ## Resources
 
@@ -30,22 +27,23 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-launch-module\_library-resource\_name to generate resource names | <pre>map(object({<br>    name       = string<br>    max_length = optional(number, 60)<br>  }))</pre> | <pre>{<br>  "network_security_group": {<br>    "max_length": 80,<br>    "name": "nsg"<br>  },<br>  "resource_group": {<br>    "max_length": 80,<br>    "name": "rg"<br>  },<br>  "spoke_vnet": {<br>    "max_length": 80,<br>    "name": "spokevnet"<br>  }<br>}</pre> | no |
-| <a name="input_logical_product_family"></a> [logical\_product\_family](#input\_logical\_product\_family) | (Required) Name of the product family for which the resource is created.<br>    Example: org\_name, department\_name. | `string` | `"launch"` | no |
-| <a name="input_logical_product_service"></a> [logical\_product\_service](#input\_logical\_product\_service) | (Required) Name of the product service for which the resource is created.<br>    For example, backend, frontend, middleware etc. | `string` | `"network"` | no |
-| <a name="input_region"></a> [region](#input\_region) | (Required) The location where the resource will be created. Must not have spaces<br>    For example, eastus, westus, centralus etc. | `string` | `"eastus2"` | no |
 | <a name="input_class_env"></a> [class\_env](#input\_class\_env) | (Required) Environment where resource is going to be deployed. For example. dev, qa, uat | `string` | `"dev"` | no |
 | <a name="input_instance_env"></a> [instance\_env](#input\_instance\_env) | Number that represents the instance of the environment. | `number` | `0` | no |
 | <a name="input_instance_resource"></a> [instance\_resource](#input\_instance\_resource) | Number that represents the instance of the resource. | `number` | `0` | no |
-| <a name="input_network_map"></a> [network\_map](#input\_network\_map) | Map of objects for creating network resources. | <pre>map(object({<br>    resource_group_name = optional(string)<br>    location            = optional(string)<br>    vnet_name           = optional(string)<br>    address_space       = optional(list(string), ["10.0.0.0/16"])<br>    subnets = map(object({<br>      prefix = string<br>      delegation = optional(map(object({<br>        service_name    = string<br>        service_actions = list(string)<br>      })), {})<br>      service_endpoints                             = optional(list(string), []),<br>      private_endpoint_network_policies_enabled     = optional(bool, false)<br>      private_link_service_network_policies_enabled = optional(bool, false)<br>      network_security_group_id                     = optional(string, null)<br>      route_table_id                                = optional(string, null)<br>    }))<br>    bgp_community = optional(string, null)<br>    ddos_protection_plan = optional(object(<br>      {<br>        enable = bool<br>        id     = string<br>      }<br>    ), null)<br>    dns_servers      = optional(list(string), [])<br>    nsg_ids          = optional(map(string), {})<br>    route_tables_ids = optional(map(string), {})<br>    tags             = optional(map(string), {})<br>  }))</pre> | n/a | yes |
+| <a name="input_logical_product_family"></a> [logical\_product\_family](#input\_logical\_product\_family) | (Required) Name of the product family for which the resource is created.<br/>    Example: org\_name, department\_name. | `string` | `"launch"` | no |
+| <a name="input_logical_product_service"></a> [logical\_product\_service](#input\_logical\_product\_service) | (Required) Name of the product service for which the resource is created.<br/>    For example, backend, frontend, middleware etc. | `string` | `"network"` | no |
+| <a name="input_network_map"></a> [network\_map](#input\_network\_map) | Map of objects for creating network resources. | <pre>map(object({<br/>    resource_group_name = optional(string)<br/>    location            = optional(string)<br/>    vnet_name           = optional(string)<br/>    address_space       = optional(list(string), ["10.0.0.0/16"])<br/>    subnets = map(object({<br/>      prefix = string<br/>      delegation = optional(map(object({<br/>        service_name    = string<br/>        service_actions = list(string)<br/>      })), {})<br/>      service_endpoints                             = optional(list(string), []),<br/>      private_endpoint_network_policies_enabled     = optional(bool, false)<br/>      private_link_service_network_policies_enabled = optional(bool, false)<br/>      network_security_group_id                     = optional(string, null)<br/>      route_table_id                                = optional(string, null)<br/>    }))<br/>    bgp_community = optional(string, null)<br/>    ddos_protection_plan = optional(object(<br/>      {<br/>        enable = bool<br/>        id     = string<br/>      }<br/>    ), null)<br/>    dns_servers      = optional(list(string), [])<br/>    nsg_ids          = optional(map(string), {})<br/>    route_tables_ids = optional(map(string), {})<br/>    tags             = optional(map(string), {})<br/>  }))</pre> | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | (Required) The location where the resource will be created. Must not have spaces<br/>    For example, eastus, westus, centralus etc. | `string` | `"eastus2"` | no |
+| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-launch-module\_library-resource\_name to generate resource names | <pre>map(object({<br/>    name       = string<br/>    max_length = optional(number, 60)<br/>  }))</pre> | <pre>{<br/>  "network_security_group": {<br/>    "max_length": 80,<br/>    "name": "nsg"<br/>  },<br/>  "resource_group": {<br/>    "max_length": 80,<br/>    "name": "rg"<br/>  },<br/>  "spoke_vnet": {<br/>    "max_length": 80,<br/>    "name": "spokevnet"<br/>  }<br/>}</pre> | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_name"></a> [name](#output\_name) | The nsg name. |
-| <a name="output_vnet_subnets"></a> [vnet\_subnets](#output\_vnet\_subnets) | The ids of subnets created inside the newly created virtual network. |
-| <a name="output_vnet_names"></a> [vnet\_names](#output\_vnet\_names) | The Names of the newly created virtual network. |
-| <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | The name of the resource group. |
 | <a name="output_id"></a> [id](#output\_id) | The ID of the Subnet with the associated nsg. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+| <a name="output_name"></a> [name](#output\_name) | The nsg name. |
+| <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | The name of the resource group. |
+| <a name="output_subnet_ids"></a> [subnet\_ids](#output\_subnet\_ids) | Flattened map of subnet keys to subnet resource IDs. |
+| <a name="output_vnet_names"></a> [vnet\_names](#output\_vnet\_names) | The Names of the newly created virtual network. |
+| <a name="output_vnet_subnets"></a> [vnet\_subnets](#output\_vnet\_subnets) | The ids of subnets created inside the newly created virtual network. |
+<!-- END_TF_DOCS -->

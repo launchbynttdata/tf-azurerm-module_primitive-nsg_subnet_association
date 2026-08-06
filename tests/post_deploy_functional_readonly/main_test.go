@@ -32,11 +32,11 @@ func TestNsgSubnetAssociation(t *testing.T) {
 		SetTestConfigFolderName(testConfigsExamplesFolderDefault).
 		SetTestConfigFileName(infraTFVarFileNameDefault).
 		SetTestSpecificFlags(map[string]types.TestFlags{
-			"complete": {
+			"nsg_subnet_association": {
 				"IS_TERRAFORM_IDEMPOTENT_APPLY": true,
 			},
 		}).
 		Build()
 
-	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestNsgSubnetAssociation)
+	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestComposableNsgSubnetAssociation)
 }

@@ -30,6 +30,11 @@ output "resource_group_name" {
   description = "The name of the resource group."
 }
 
+output "subnet_ids" {
+  value       = module.network.vnet_subnet_name_id_map_flattened
+  description = "Flattened map of subnet keys to subnet resource IDs."
+}
+
 output "id" {
   value = {
     for subnet_name, assoc in module.nsg_subnet_association : subnet_name => assoc.id
