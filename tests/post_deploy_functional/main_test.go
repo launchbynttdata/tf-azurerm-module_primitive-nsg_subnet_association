@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	testConfigsExamplesFolderDefault = "../../examples"
+	testConfigsExamplesFolderDefault = "../../examples/nsg_subnet_association"
 	infraTFVarFileNameDefault        = "test.tfvars"
 )
 
@@ -33,6 +33,7 @@ func TestNsgSubnetAssociation(t *testing.T) {
 		SetTestConfigFileName(infraTFVarFileNameDefault).
 		SetTestSpecificFlags(map[string]types.TestFlags{
 			"nsg_subnet_association": {
+				// Second apply drifts from module_collection/virtual_network subnet output, not this association.
 				"IS_TERRAFORM_IDEMPOTENT_APPLY": false,
 			},
 		}).
