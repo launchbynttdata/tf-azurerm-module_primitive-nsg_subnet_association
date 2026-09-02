@@ -33,9 +33,9 @@ func TestComposableNsgSubnetAssociation(t *testing.T, ctx types.TestContext) {
 	subnetsClient := clientFactory.NewSubnetsClient()
 	nsgClient := clientFactory.NewSecurityGroupsClient()
 
-	resourceGroupName := terraform.Output(t, ctx.TerratestTerraformOptions(), "resource_group_name")
-	nsgName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
-	subnetIDs := terraform.OutputMap(t, ctx.TerratestTerraformOptions(), "subnet_ids")
+	resourceGroupName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "resource_group_name")
+	nsgName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "name")
+	subnetIDs := terraform.OutputMapContext(t, context.Background(), ctx.TerratestTerraformOptions(), "subnet_ids")
 
 	t.Run("IsNsgSubnetAssociated", func(t *testing.T) {
 
